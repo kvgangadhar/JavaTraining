@@ -13,5 +13,5 @@ public interface CustomerDao {
 
     Customer fetchCustomerWithAddress(int customerId);
 
-    void deleteCustomer(Customer customer);
+    void deleteCustomer(Integer customerId);
 }

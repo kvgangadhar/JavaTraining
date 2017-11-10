@@ -34,3 +34,47 @@ Exercise:
 Customer
 Address
 PaymentMethod
+
+
+Exer:
+Develop the library to implement the following API,
+
+1. Add Customer along with Address (https://vladmihalcea.com/2015/03/05/a-beginners-guide-to-jpa-and-hibernate-cascade-types/)
+2. Add PaymentMethods for a customer
+3. Fetch all the PaymentMethods for given customer.
+4. Fetch Customer along with Address and Payment methods
+5. Fetch Customer along with Address but no Payment methods
+6. Delete Customer and all associated information.
+7. Update customer payment methods with new information
+8. Delete a Payment method of a customer
+9. Apply logging for all the above api/methods
+
+//
+inteface CustomerService {
+	updateAddress(Address address);
+	updateCustomer(Customer customer);
+	deleteCustomer(Long custId);
+	int deletePaymentMethods(Long custId);
+	Customer createCustomer(Customer customer);
+	PaymentMethod updatePaymentMethod(PaymentMethod paymentMethod);
+	Customer findCustomerFullData(Long custId);
+}
+
+interface CustomerDao {
+	Customer saveCustomer(Customer customer);
+	Customer findCustomer(Customer customer); //For Customer and  customer with address (Note: Address is eager load)
+	Customer findCustomerFullData(Long custId);
+	int deleteCustomer(Long custId); //will delete along the customer information also.
+	Customer updateCustomer(Customer customer);
+}
+
+interface AddressDao {
+	Address updateAddress(Address address);
+	int deleteAddress(Long custId);
+}
+
+interface PaymentMethodDao {
+	List<PaymentMethod> findPaymentMehods(Long custId);
+	int deletePaymentMethods(Long custId);
+	PaymentMethod updatePaymentMethod(PaymentMethod paymentMethod);
+}

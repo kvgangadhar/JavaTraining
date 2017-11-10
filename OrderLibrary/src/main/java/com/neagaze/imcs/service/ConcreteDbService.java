@@ -7,6 +7,7 @@ import com.neagaze.imcs.dao.PaymentMethodDao;
 import com.neagaze.imcs.entities.Customer;
 import com.neagaze.imcs.entities.PaymentMethod;
 import com.neagaze.imcs.util.HibernateUtils;
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -22,13 +23,18 @@ public class ConcreteDbService implements DatabaseServiceInterface {
         return customerDao.insertCustomer(customer);
     }
 
-    public void addPayments(int customerId, PaymentMethod paymentMethod) {
+    public void addPayments(Integer custId, PaymentMethod paymentMethod) {
+
+        CustomerDao cdao = new ConcreteCustomerDao();
+        paymentMethod.setCustomer(cdao.fetchCustomerWithAddress(custId));
+
         PaymentMethodDao paymentMethodDao = new ConcretePaymentMethodDao();
         paymentMethodDao.insert(paymentMethod);
     }
 
-    public List<PaymentMethod> getPaymentFromCustomer(int customerId) {
-        return null;
+    public List<PaymentMethod> getPaymentFromCustomer(Integer customerId) {
+        PaymentMethodDao paymentMethodDao = new ConcretePaymentMethodDao();
+        return paymentMethodDao.findPaymentMethods(customerId);
     }
 
     public Customer getCustomer(int customerId) {
@@ -41,16 +47,18 @@ public class ConcreteDbService implements DatabaseServiceInterface {
         return cdao.fetchCustomerWithAddress(customerId);
     }
 
-    public void deleteCustomer(Customer customer) {
+    public void deleteCustomer(Integer customerId) {
         CustomerDao cdao = new ConcreteCustomerDao();
-        cdao.deleteCustomer(customer);
+        cdao.deleteCustomer(customerId);
     }
 
-    public void updatePayment(PaymentMethod paymentMethod) {
-
+    public PaymentMethod updatePaymentMethod(PaymentMethod paymentMethod) {
+        PaymentMethodDao pmdao = new ConcretePaymentMethodDao();
+        return pmdao.updatePaymentMethod(paymentMethod);
     }
 
-    public void deletePayment(int customerId) {
-
+    public Integer deletePaymentMethods(Integer customerId) {
+        PaymentMethodDao pdao = new ConcretePaymentMethodDao();
+        return pdao.deletePaymentMethods(customerId);
     }
 }

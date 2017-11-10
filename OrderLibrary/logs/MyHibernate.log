@@ -1,0 +1,2 @@
+2017-11-10 14:45:23 DEBUG logging:192 - Logging Provider: org.jboss.logging.Log4jLoggerProvider
+2017-11-10 14:45:25 DEBUG App:99 - PaymentMethod{id=3, cardNumber=45699999, cardName='CITI BANK', dateFrom=2017-11-10 14:30:24.0, cardType=CREDIT_CARD, customer=Customer{id=1, name='Michael Baptista'}}

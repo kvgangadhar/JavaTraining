@@ -11,9 +11,9 @@ public interface PaymentMethodDao {
 
     void insert(PaymentMethod paymentMethod);
 
-    List<PaymentMethod> fetch(int customerId);
+    List<PaymentMethod> findPaymentMethods(Integer customerId);
 
-    void update(PaymentMethod paymentMethod);
+    PaymentMethod updatePaymentMethod(PaymentMethod paymentMethod);
 
-    void delete(int paymentId);
+    Integer deletePaymentMethods(Integer custId);
 }

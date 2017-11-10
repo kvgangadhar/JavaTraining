@@ -12,17 +12,17 @@ public interface DatabaseServiceInterface {
 
     int addCustomer(Customer customer);
 
-    void addPayments(int customerId, PaymentMethod paymentMethod);
+    void addPayments(Integer custId, PaymentMethod paymentMethod);
 
-     List<PaymentMethod> getPaymentFromCustomer(int customerId);
+    List<PaymentMethod> getPaymentFromCustomer(Integer customerId);
 
-     Customer getCustomer(int customerId);
+    Customer getCustomer(int customerId);
 
-     Customer getCustomerWithAddress(int customerId);
+    Customer getCustomerWithAddress(int customerId);
 
-     void deleteCustomer(Customer customer);
+    void deleteCustomer(Integer customerId);
 
-     void updatePayment(PaymentMethod paymentMethod);
+    PaymentMethod updatePaymentMethod(PaymentMethod paymentMethod);
 
-     void deletePayment(int customerId);
+    Integer deletePaymentMethods(Integer customerId);
 }

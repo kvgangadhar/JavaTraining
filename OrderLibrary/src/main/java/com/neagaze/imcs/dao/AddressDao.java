@@ -7,5 +7,9 @@ import com.neagaze.imcs.entities.Address;
  */
 public interface AddressDao {
 
-    void insertAddress(Address addres);
+    void insertAddress(Address address);
+
+    Address updateAddress(Address address);
+
+    int deleteAddress(Integer custId);
 }

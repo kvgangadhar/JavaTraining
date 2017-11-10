@@ -18,7 +18,7 @@ public class PaymentMethod implements Serializable {
     private CardType cardType;
 
     @ManyToOne
-    //@JoinColumn(name = "customer_id")
+    @JoinColumn(name = "customer_id")
     private Customer customer;
 
     public Integer getId() {

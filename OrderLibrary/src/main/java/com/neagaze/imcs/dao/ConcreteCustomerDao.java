@@ -2,6 +2,7 @@ package com.neagaze.imcs.dao;
 
 import com.neagaze.imcs.entities.Customer;
 import com.neagaze.imcs.util.HibernateUtils;
+import org.apache.log4j.Logger;
 import org.hibernate.*;
 import org.hibernate.criterion.Restrictions;
 
@@ -9,6 +10,8 @@ import org.hibernate.criterion.Restrictions;
  * Created by neaGaze on 11/9/17.
  */
 public class ConcreteCustomerDao implements CustomerDao {
+
+    final static Logger logger = Logger.getLogger(ConcreteCustomerDao.class);
 
     public int insertCustomer(Customer customer) {
         SessionFactory factory = HibernateUtils.getFactory();
@@ -19,6 +22,7 @@ public class ConcreteCustomerDao implements CustomerDao {
         session.close();
         int id = customer.getId();
         System.out.println("Customer id#1: " + id);
+        logger.debug("Customer id#1: " + id);
         //factory.close();
 
         return id;
@@ -37,6 +41,7 @@ public class ConcreteCustomerDao implements CustomerDao {
         Customer customer =  (Customer) q.list().get(0);
         int size = customer.getPaymentMethodList().size();
         System.out.println("size after loading lazy list:  " + size);
+        logger.debug("size after loading lazy list:  " + size);
         transaction.commit();
         session.close();
 
@@ -56,16 +61,16 @@ public class ConcreteCustomerDao implements CustomerDao {
         return customer;
     }
 
-    public void deleteCustomer(Customer customer) {
+    public void deleteCustomer(Integer customerId) {
 
         SessionFactory factory = HibernateUtils.getFactory();
         Session session = factory.openSession();
         session.beginTransaction();
-        Customer c = (Customer) session.load(Customer.class, customer.getId());
+        Customer c = (Customer) session.load(Customer.class, customerId);
         session.delete(c);
         session.getTransaction().commit();
         session.close();
         System.out.println("Deleted Customer id: " + c.getId());
-
+        logger.debug("Deleted Customer id: " + c.getId());
     }
 }
