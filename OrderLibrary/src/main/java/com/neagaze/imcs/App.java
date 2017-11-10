@@ -40,14 +40,14 @@ public class App {
         paymentMethod.setCardNumber(new Long(566));
         paymentMethod.setCardType(CardType.CREDIT_CARD);
         paymentMethod.setDateFrom(new Date());
-        //paymentMethod.setCustomer(customer);
+        paymentMethod.setCustomer(customer);
 
         PaymentMethod paymentMethod2 = new PaymentMethod();
         paymentMethod2.setCardName("CHASE");
         paymentMethod2.setCardNumber(new Long(6789000));
         paymentMethod2.setCardType(CardType.DEBIT_CARD);
         paymentMethod2.setDateFrom(new Date());
-        //paymentMethod2.setCustomer(customer);
+        paymentMethod2.setCustomer(customer);
 
         List<PaymentMethod> list = new ArrayList<PaymentMethod>();
         list.add(paymentMethod);
@@ -66,6 +66,8 @@ public class App {
         int id;
         boolean shouldContinueLoop = true;
         while(shouldContinueLoop) {
+            System.out.println("1. Add customer\n2. Delete Customer\n3. Fetch Customer + Address + PaymentMethod\n" +
+                "4. Fetch Customer + Address");
             id = scan.nextInt();
 
             switch (id) {
@@ -78,6 +80,28 @@ public class App {
                 case 2:
                     // now deleting
                     service.deleteCustomer(customer);
+                    break;
+
+                case 3:
+                    // now fetching
+                    System.out.println("What is the id of the customer you want to fetch?");
+                    int custId = scan.nextInt();
+                    Customer c1 = service.getCustomer(custId);
+                    System.out.println(c1.getName());
+                    System.out.println(c1.getAddress());
+                    if(c1.getPaymentMethodList() != null)
+                    for (PaymentMethod p : c1.getPaymentMethodList()) {
+                        System.out.println(p);
+                    }
+                    break;
+
+                case 4:
+                    // now fetching
+                    System.out.println("What is the id of the customer you want to fetch?");
+                    int custId1 = scan.nextInt();
+                    Customer c2 = service.getCustomerWithAddress(custId1);
+                    System.out.println(c2.getName());
+                    System.out.println(c2.getAddress());
                     break;
 
                 case 9:

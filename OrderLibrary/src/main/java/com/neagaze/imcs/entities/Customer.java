@@ -20,7 +20,7 @@ public class Customer implements Serializable {
     @OneToOne(mappedBy = "customer", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private Address address;
 
-    @OneToMany( fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     //@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     //@Transient
     private List<PaymentMethod> paymentMethodList;
@@ -56,5 +56,15 @@ public class Customer implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                //", address=" + address +
+                //", paymentMethodList=" + paymentMethodList +
+                '}';
     }
 }

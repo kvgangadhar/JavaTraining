@@ -9,9 +9,9 @@ public interface CustomerDao {
 
     int insertCustomer(Customer customer);
 
-    void fetchCustomerWithAddressAndPayment(int customerId);
+    Customer fetchCustomerWithAddressAndPayment(int customerId);
 
-    void fetchCustomerWithAddress(int customerId);
+    Customer fetchCustomerWithAddress(int customerId);
 
     void deleteCustomer(Customer customer);
 }

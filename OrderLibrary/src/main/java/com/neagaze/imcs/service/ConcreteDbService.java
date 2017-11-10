@@ -32,11 +32,13 @@ public class ConcreteDbService implements DatabaseServiceInterface {
     }
 
     public Customer getCustomer(int customerId) {
-        return null;
+        CustomerDao cdao = new ConcreteCustomerDao();
+        return cdao.fetchCustomerWithAddressAndPayment(customerId);
     }
 
     public Customer getCustomerWithAddress(int customerId) {
-        return null;
+        CustomerDao cdao = new ConcreteCustomerDao();
+        return cdao.fetchCustomerWithAddress(customerId);
     }
 
     public void deleteCustomer(Customer customer) {

@@ -90,4 +90,17 @@ public class Address implements Serializable {
         this.customer = customer;
     }
 
+    @Override
+    public String toString() {
+        return "Address{" +
+                "id=" + id +
+                ", customer=" + customer +
+                ", aptNo='" + aptNo + '\'' +
+                ", streetNo=" + streetNo +
+                ", zip=" + zip +
+                ", streetName='" + streetName + '\'' +
+                ", city='" + city + '\'' +
+                ", state='" + state + '\'' +
+                '}';
+    }
 }

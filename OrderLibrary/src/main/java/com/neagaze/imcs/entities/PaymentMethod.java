@@ -17,10 +17,9 @@ public class PaymentMethod implements Serializable {
     private Date dateFrom;
     private CardType cardType;
 
-    //@ManyToOne(fetch = FetchType.LAZY)
-    //@PrimaryKeyJoinColumn
-    //@ManyToOne
-    //private Customer customer;
+    @ManyToOne
+    //@JoinColumn(name = "customer_id")
+    private Customer customer;
 
     public Integer getId() {
         return id;
@@ -61,7 +60,7 @@ public class PaymentMethod implements Serializable {
     public void setCardType(CardType cardType) {
         this.cardType = cardType;
     }
-/*
+
     public Customer getCustomer() {
         return customer;
     }
@@ -69,5 +68,16 @@ public class PaymentMethod implements Serializable {
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
-    */
+
+    @Override
+    public String toString() {
+        return "PaymentMethod{" +
+                "id=" + id +
+                ", cardNumber=" + cardNumber +
+                ", cardName='" + cardName + '\'' +
+                ", dateFrom=" + dateFrom +
+                ", cardType=" + cardType +
+                ", customer=" + customer +
+                '}';
+    }
 }
