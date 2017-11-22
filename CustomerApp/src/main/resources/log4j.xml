@@ -23,7 +23,7 @@
 		<level value="on" />
 	</logger>
 
-	<logger name="com.neagaze.imcs.db.dao">
+	<logger name="com.neagaze.imcs.dao">
 		<level value="DEBUG" />
 	</logger>
 	

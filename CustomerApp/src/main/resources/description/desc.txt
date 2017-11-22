@@ -1,0 +1,32 @@
+
+
+a) User Login
+b) Security to Application
+c) A view of the user with a menu to do the following actions
+       A. View  Customer
+	   B. Create Customer
+	   c. Display All customers (In Table View)
+d) - Initial View of Customer should show only customer with address,
+   - you show two links to "View Payment Methods" and "Add Payment Methods"
+   - clicking on "View Payment Methods" should display the Payment Methods of that customer
+   - clicking on "Add Payment Methods" should display a view to add Payment Methods to that customer
+e) Initial Create Customer should accept the only customer with the address.
+d) Display All Customers should show all customer in a table with rows. (only Customer data, no address, and payments)
+
+****** DESIGN MODELS ********
+
+customer (/customers)
+	viewCustomer
+		/view - get - viewCustomer.jsp
+		{customerId}/view - get
+	createCustomer
+		/create - get - createCustomer.jsp
+		/create - post - viewCustomer.jsp
+	displayAllCustomers
+		 /viewAll - get - showAllCustomers.jsp
+
+	viewPaymentMethods
+		 customers/{cuomsetId}/payments
+		 /view?customerId=123 - get - viewPaymentMethods.jsp
+		 /view?customerId=123&payment - get
+	addPaymentMethods

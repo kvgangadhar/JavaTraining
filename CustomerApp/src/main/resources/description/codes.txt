@@ -1,0 +1,5 @@
+lsof -i -n -P | grep 8080
+mvn clean
+killall -9 java
+(press the run button in IDEA)
+mvn spring-boot:run

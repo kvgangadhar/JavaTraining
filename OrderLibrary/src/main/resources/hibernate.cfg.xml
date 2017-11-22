@@ -14,8 +14,8 @@
 <!--
       <property name="hibernate.hbm2ddl.auto">create</property>
 -->
-        <mapping class="com.neagaze.imcs.entities.Customer"></mapping>
-        <mapping class="com.neagaze.imcs.entities.Address"></mapping>
-        <mapping class="com.neagaze.imcs.entities.PaymentMethod"></mapping>
+        <mapping class="com.neagaze.imcs.db.entities.Customer"></mapping>
+        <mapping class="com.neagaze.imcs.db.entities.Address"></mapping>
+        <mapping class="com.neagaze.imcs.db.entities.PaymentMethod"></mapping>
     </session-factory>
 </hibernate-configuration>

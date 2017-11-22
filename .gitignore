@@ -1,5 +1,10 @@
 HibernateTrng
+ServletTrng
+MySpringData
 .idea
 App.iml
 OrderLibrary/target
+OrderLibrary/OrderLibrary.iml
 ~/
+*/.DS_Store
+*/target
