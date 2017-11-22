@@ -7,16 +7,20 @@ import com.neagaze.imcs.spring.validator.CustomerValidator;
 import com.neagaze.imcs.spring.validator.PaymentValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -28,6 +32,8 @@ import java.util.List;
 public class CustomerController {
 
    // final static org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(CustomerController.class);
+
+    static String URL = "http://localhost:8080/customers";
 
     private Customer customer;
 
@@ -75,7 +81,9 @@ public class CustomerController {
         System.out.println("the customerId selected is: " + custID);
 
         // check from the OrderLibrary service and retrieve the Customer model
-        customer = service.getCustomerWithAddress(Integer.parseInt(custID));
+        //customer = service.getCustomerWithAddress(Integer.parseInt(custID));
+
+        customer = getCustomer(custID);
 
         System.out.println(customer.getName());
         System.out.println(customer.getAddress());
@@ -94,7 +102,8 @@ public class CustomerController {
         ModelAndView modelAndView = new ModelAndView("view-customer");
 
         // check from the OrderLibrary service and retrieve the Customer model
-        customer = service.getCustomerWithAddress(Integer.parseInt(custID));
+        // customer = service.getCustomerWithAddress(Integer.parseInt(custID));
+        customer = getCustomer(custID);
 
         System.out.println(customer.getName());
         System.out.println(customer.getAddress());
@@ -106,10 +115,13 @@ public class CustomerController {
             }
         }
         */
+        /*
         List<PaymentMethod> lists = (ArrayList<PaymentMethod>)service.getPaymentFromCustomer(new Integer(custID));
         if(lists != null) {
             modelAndView.addObject("paymentList", lists);
         }
+        */
+        modelAndView.addObject("paymentList", customer.getPaymentMethodList());
         modelAndView.addObject("customer", customer);
         return modelAndView;
     }
@@ -131,7 +143,8 @@ public class CustomerController {
         System.out.println("New address only: " + customer.getAddress());
 
         customer.getAddress().setCustomer(customer);
-        service.addCustomer(customer);
+        // service.addCustomer(customer);
+        createCustomer(customer);
         System.out.println("1. The customerId in main.app is: " + customer.getId());
         //logger.debug("The customerId in main.app is: " + customer.getId());
 
@@ -145,7 +158,8 @@ public class CustomerController {
         if (bindingResult.hasErrors())
             System.out.println("payment method binding failed");
 
-        service.addPayments(Integer.parseInt(customerId), paymentMethod);
+        // service.addPayments(Integer.parseInt(customerId), paymentMethod);
+        createPaymentMethods(customerId, paymentMethod);
 
         System.out.println("New payment method: " + paymentMethod);
         return "index";
@@ -164,13 +178,70 @@ public class CustomerController {
      ****/
     @RequestMapping(value = "/viewAll", method = RequestMethod.GET)
     public String getAllCustomersPage(Model model) {
-/*
-        List<Customer> lists = service.getAllCustomers();
+        // List<Customer> lists = service.getAllCustomers();
+        List<Customer> lists = getAllCustomers();
         if(lists != null)
             System.out.println("All customers size: " + lists.size());
         model.addAttribute("customersList", lists);
-        */
-        return "customers-list-view";
+
+        return "customer-list-view";
+    }
+
+
+    /***
+     * Call the webservice and retrieve the Customer data
+     * **/
+    private Customer getCustomer(String custID) {
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
+//		Person person = restTemplate.getForObject(url, Person.class);
+        ResponseEntity<Customer> responseEntity = restTemplate.exchange(URL + "/" + custID + "/view", HttpMethod.GET, entity, Customer.class);
+        System.out.println(responseEntity.getStatusCodeValue());
+        return responseEntity.getBody();
+    }
+
+    private void createCustomer(Customer customer) {
+        RestTemplate restTemplate = new RestTemplate();
+        HttpEntity<Customer> entity = new HttpEntity<Customer>(customer);
+//		restTemplate.postForObject("http://localhost:8080/MySpringRest/person", newPerson, String.class);
+        ResponseEntity<Customer> responseEntity = restTemplate.exchange(URL+"/create", HttpMethod.POST, entity, Customer.class);
+        if (responseEntity.getStatusCode() == HttpStatus.CREATED) {
+            System.out.println("Person data created successfully, id: " + responseEntity.getStatusCode());
+            return;
+        } else {
+            System.out.println("Person data creation failed");
+            return;
+        }
+    }
+
+    private void createPaymentMethods(String customerId, PaymentMethod paymentMethod) {
+        RestTemplate restTemplate = new RestTemplate();
+        HttpEntity<PaymentMethod> entity = new HttpEntity<PaymentMethod>(paymentMethod);
+//		restTemplate.postForObject("http://localhost:8080/MySpringRest/person", newPerson, String.class);
+        ResponseEntity<PaymentMethod> responseEntity = restTemplate.exchange(URL+"/" + customerId+"/addPaymentMethod", HttpMethod.POST, entity, PaymentMethod.class);
+        if (responseEntity.getStatusCode() == HttpStatus.CREATED) {
+            System.out.println("PaymentMethod added successfully, id: " + responseEntity.getStatusCode());
+            return;
+        } else {
+            System.out.println("paymentmethod data creation failed");
+            return;
+        }
+    }
+
+    private List<Customer> getAllCustomers() {
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
+//		Person person = restTemplate.getForObject(url, Person.class);
+        ResponseEntity<List<Customer>> responseEntity = restTemplate.exchange(URL + "/viewAll", HttpMethod.GET,
+                entity, new ParameterizedTypeReference<List<Customer>>() {});
+        System.out.println(responseEntity.getStatusCodeValue());
+        return responseEntity.getBody();
     }
 
 }
