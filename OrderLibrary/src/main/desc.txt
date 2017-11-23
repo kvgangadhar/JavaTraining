@@ -78,3 +78,10 @@ interface PaymentMethodDao {
 	int deletePaymentMethods(Long custId);
 	PaymentMethod updatePaymentMethod(PaymentMethod paymentMethod);
 }
+
+
+# create Customer
+curl -X POST -H "Content-Type: application/json" -d '{"name":"Thor ragnarok", "address":{"aptNo":"456","streetNo":56,"zip":96001,"streetName":"Freak Street","city":"Laramie","state":"WY"}}' http://localhost:8080/customers/create
+
+# add payment methods
+curl -X POST -H "Content-Type: application/json" -d '{"cardNumber":"545678995","cardName":"WELLS FARGO BANK", "cardType":"CREDIT_CARD"}' http://localhost:8080/customers/6/addPaymentMethod

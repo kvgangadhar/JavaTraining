@@ -13,6 +13,8 @@ import java.util.List;
  * Created by neaGaze on 11/8/17.
  */
 @Entity
+//@NamedEntityGraph(name = "Customer.paymentMethod",
+//        attributeNodes = @NamedAttributeNode("paymentMethodList"))
 public class Customer implements Serializable {
 
     @Id

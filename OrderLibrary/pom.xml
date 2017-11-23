@@ -14,6 +14,11 @@
     <name>orderlibrary Maven Mojo</name>
     <url>http://maven.apache.org</url>
 
+    <properties>
+        <context.path>spring-mvc-data</context.path>
+        <jdk.version>1.8</jdk.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -51,12 +56,13 @@
             <version>5.1.9</version>
         </dependency>
 
-        <!-- Hibernate framework -->
+        <!-- Hibernate framework
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
             <version>4.3.5.Final</version>
         </dependency>
+        -->
         <!--  EHCache uses slf4j for logging  -->
 
         <dependency>
@@ -86,5 +92,27 @@
             <version>4.3.9.RELEASE</version>
         </dependency>
 
+        <!--  Spring Data dependency -->
+        <dependency>
+            <groupId> org.springframework.boot </groupId>
+            <artifactId>spring-boot-starter-data-jpa </artifactId>
+        </dependency>
+
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.1.0</version>
+            </plugin>
+
+            <!-- Package as an executable jar/war -->
+            <!--<plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>-->
+        </plugins>
+    </build>
 </project>

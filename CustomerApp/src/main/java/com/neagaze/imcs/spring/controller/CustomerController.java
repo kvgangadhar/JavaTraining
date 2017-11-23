@@ -2,12 +2,12 @@ package com.neagaze.imcs.spring.controller;
 
 import com.neagaze.imcs.db.entities.Customer;
 import com.neagaze.imcs.db.entities.PaymentMethod;
-import com.neagaze.imcs.db.service.DatabaseServiceInterface;
 import com.neagaze.imcs.spring.validator.CustomerValidator;
 import com.neagaze.imcs.spring.validator.PaymentValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.core.env.Environment;
 import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,12 +33,12 @@ public class CustomerController {
 
    // final static org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(CustomerController.class);
 
-    static String URL = "http://localhost:8080/customers";
-
-    private Customer customer;
+    private String URL = "http://localhost:8080/customers";
 
     @Autowired
-    private DatabaseServiceInterface service;
+    private Environment env;
+
+    private Customer customer;
 
     @Autowired
     private CustomerValidator customerValidator;
@@ -49,6 +49,8 @@ public class CustomerController {
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         // binder.addValidators(customerValidator, paymentValidator);
+
+        URL = env.getProperty("target.url");
 
         SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
         sdf.setLenient(true);
@@ -107,20 +109,7 @@ public class CustomerController {
 
         System.out.println(customer.getName());
         System.out.println(customer.getAddress());
-        /*
-        if(customer.getPaymentMethodList() != null) {
-            for (PaymentMethod p : customer.getPaymentMethodList()) {
-                System.out.println(p);
-                modelAndView.addObject("payment", p);
-            }
-        }
-        */
-        /*
-        List<PaymentMethod> lists = (ArrayList<PaymentMethod>)service.getPaymentFromCustomer(new Integer(custID));
-        if(lists != null) {
-            modelAndView.addObject("paymentList", lists);
-        }
-        */
+
         modelAndView.addObject("paymentList", customer.getPaymentMethodList());
         modelAndView.addObject("customer", customer);
         return modelAndView;

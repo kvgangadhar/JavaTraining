@@ -4,6 +4,7 @@ import com.neagaze.imcs.db.entities.Customer;
 import com.neagaze.imcs.db.entities.PaymentMethod;
 import com.neagaze.imcs.db.service.DatabaseServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -23,6 +26,7 @@ public class CustomerController {
     private Customer customer;
 
     @Autowired
+    @Qualifier(value="concreteDbService")
     private DatabaseServiceInterface service;
 
 
@@ -76,7 +80,8 @@ public class CustomerController {
      ****/
     @RequestMapping(value = "/viewAll", method = RequestMethod.GET)
     public ResponseEntity getAllCustomersPage() {
-        List<Customer> lists = service.getAllCustomers();
+        List<Customer> lists =  service.getAllCustomers();
+
         return new ResponseEntity(lists, HttpStatus.ACCEPTED);
     }
 }
